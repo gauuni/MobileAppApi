@@ -94,9 +94,6 @@ function getUser(username, password, callback){
     .findOne({
         username:username,
         password:password
-    }, {
-        'username':1,
-        'email': 1
     },
         (err, result) =>{
             console.log(result)
