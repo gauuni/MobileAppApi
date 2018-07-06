@@ -6,7 +6,7 @@ const ejs = require('ejs')
 
 const app = express()
 var db 
-const db_uri = 'mongodb://<khoinguyenios>:<@Gcguest177>@ds127811.mlab.com:27811/demo-mobile-app-api'
+const db_uri = 'mongodb://<khoinguyenios>:<@Gcguest177>%40ds127811.mlab.com:27811/demo-mobile-app-api'
 // const db_uri = 'mongodb://127.0.0.1:27017/exampleDb'
 app.use(bodyParser.urlencoded({extended: true}))
 
@@ -41,7 +41,7 @@ MongoClient.connect(db_uri,{ useNewUrlParser: true }, (err, client)=>{
     db = client.db('demo-mobile-app-api')
 
     // start server
-    const listener = app.listen(process.env.PORT || 3000, ()=>{
+    const listener = app.listen(3000, ()=>{
         console.log('Server is running on port '+listener.address().port+'!')
     })
 })
