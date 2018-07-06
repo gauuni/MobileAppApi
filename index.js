@@ -3,6 +3,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const MongoClient = require('mongodb').MongoClient
 const ejs = require('ejs')
+const port = process.env.PORT || 5000
 
 const app = express()
 var db 
@@ -36,13 +37,14 @@ app.post('/quotes', (req, res)=>{
 
 
 
-MongoClient.connect(db_uri,{ useNewUrlParser: true }, (err, client)=>{
+MongoClient.connect(process.env.MONGODB_URI,{ useNewUrlParser: true }, (err, client)=>{
     if (err) return console.log(err)
     db = client.db('demo-mobile-app-api')
 
     // start server
-    const listener = app.listen(process.env.PORT || 3000, ()=>{
+    const listener = app.listen(port, ()=>{
         console.log('Server is running on port '+listener.address().port+'!')
     })
+    
 })
 
