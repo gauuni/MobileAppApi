@@ -41,7 +41,7 @@ MongoClient.connect(db_uri,{ useNewUrlParser: true }, (err, client)=>{
     db = client.db('demo-mobile-app-api')
 
     // start server
-    const listener = app.listen(3000, ()=>{
+    const listener = app.listen(process.env.PORT || 3000, ()=>{
         console.log('Server is running on port '+listener.address().port+'!')
     })
 })
