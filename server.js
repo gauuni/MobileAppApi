@@ -24,6 +24,22 @@ app.get('/', (req, res)=>{
     })
 })
 
+app.get('/users', (req, res)=>{
+    var cursor = db.collection('users').find().toArray((err, results) =>{
+        
+        if (err) return res.send({
+            status: false,
+            message: err
+        })
+
+        res.send({
+            status: 200,
+            message: sucess,
+            data:{ results }
+        })
+    })
+})
+
 app.post('/quotes', (req, res)=>{
     db.collection('quotes').save(req.body, (err, result) =>{
         if (err) return console.log(err)
