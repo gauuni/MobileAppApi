@@ -7,7 +7,7 @@ const port = process.env.PORT || 5000
 
 const app = express()
 var db 
-const db_uri = 'mongodb://<khoinguyenios>:<@Gcguest177>%40ds127811.mlab.com:27811/demo-mobile-app-api'
+const db_uri = 'mongodb://<khoinguyenios>:<%40Gcguest177>%40ds127811.mlab.com:27811/demo-mobile-app-api'
 // const db_uri = 'mongodb://127.0.0.1:27017/exampleDb'
 app.use(bodyParser.urlencoded({extended: true}))
 
@@ -37,7 +37,7 @@ app.post('/quotes', (req, res)=>{
 
 
 
-MongoClient.connect(process.env.MONGODB_URI,{ useNewUrlParser: true }, (err, client)=>{
+MongoClient.connect(db_uri,{ useNewUrlParser: true }, (err, client)=>{
     if (err) return console.log(err)
     db = client.db('demo-mobile-app-api')
 
