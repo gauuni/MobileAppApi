@@ -35,7 +35,7 @@ app.get('/users', (req, res)=>{
         res.send({
             status: 200,
             message: 'sucess',
-            data:{ results }
+            data:results
         })
     })
 })
