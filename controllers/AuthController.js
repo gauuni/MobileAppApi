@@ -22,15 +22,13 @@ router.post('/register', (req, res)=>{
             return sendResponseDataWith(res, 500, "There was a problem registering the user")
         }
         // create a token
-        var token = jwt.sign({ id: user._id }, 
-            config.secret,
-            { expiresIn: 15*60})
+        var token = createToken(user._id)
         
         sendResponseDataWith(res, 200, null, {token: token})
     })
 })
 
-router.get('/me', (req, res)=>{
+router.get('/me', (req, res, next)=>{
     var token = req.headers['x-access-token']
     if (!token){
         return sendResponseDataWith(res, 401, "No token provided.")
@@ -42,7 +40,9 @@ router.get('/me', (req, res)=>{
         }
 
         //get user
-        User.findById(decoded.id, (err, user)=>{
+        User.findById(decoded.id,
+             {password:0},
+             (err, user)=>{
             if (err){
                 return sendResponseDataWith(res, 500, "There was a problem finding the user.")
             }
@@ -52,9 +52,38 @@ router.get('/me', (req, res)=>{
             }
 
             sendResponseDataWith(res, 200, null, user)
+            // next(user)
         })
     })
 })
+
+router.post("/login", (req, res)=>{
+    User.findOne({email: req.body.email},
+         (err, user)=>{
+            if (err) {
+                return sendResponseDataWith(res, 500, "Error on the server.")
+            }
+
+            if (!user){
+                return sendResponseDataWith(res, 200, "Not found user with this email.")
+            }
+
+            // check valid password
+            var passwordIsValid = bcrypt.compareSync(req.body.password, user.password)
+            if (!passwordIsValid){
+                return sendResponseDataWith(res, 401, "Wrong email or password.")
+            }
+
+            var token = createToken(user._id)
+            sendResponseDataWith(res, 200, null, {token: token})
+            
+    })
+})
+
+// add the middleware function
+// router.use(function (user, req, res, next) {
+//     sendResponseDataWith(res, 200, null, user)
+//   })
 
 function sendResponseDataWith(response, code, message, data){
     var status = code == 200 ? true : false
@@ -62,6 +91,12 @@ function sendResponseDataWith(response, code, message, data){
     if (!message) message = "Success"
     var responseData = {status: status, message: message, data: data } 
     response.status(code).send(responseData)
+}
+
+function createToken(id, interval=15*60){
+    return jwt.sign({ id: id }, 
+        config.secret,
+        { expiresIn: interval})
 }
 
 module.exports = router
