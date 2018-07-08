@@ -102,7 +102,9 @@ function getUser(username, password, callback){
 }
 
 
-MongoClient.connect(db_uri,{ useNewUrlParser: true}, (err, client)=>{
+MongoClient.connect(db_uri,
+    { useNewUrlParser: true},
+     (err, client)=>{
     if (err) return console.log(err)
     db = client.db('demo-mobile-app-api')
 
