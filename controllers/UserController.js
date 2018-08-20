@@ -8,7 +8,7 @@ var User = require('../schemas/User')
 
 // get profile
 router.get('/', (req, res)=>{
-    
+
 })
 
 module.exports = router;

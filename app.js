@@ -8,4 +8,7 @@ app.use('/users', UserController)
 var AuthController = require('./controllers/AuthController')
 app.use('/api/auth', AuthController)
 
+var LyricWikiController = require('./controllers/LyricWikiController')
+app.use('/api/lyric', LyricWikiController)
+
 module.exports = app;
