@@ -11,4 +11,11 @@ app.use('/api/auth', AuthController)
 var LyricWikiController = require('./controllers/LyricWikiController')
 app.use('/api/lyric', LyricWikiController)
 
+var YoutubeGetLinkController = require('./controllers/YoutubeGetLinkController')
+app.use('/api/youtube', YoutubeGetLinkController)
+
+app.get('/', function(request, response){
+    response.sendFile(__dirname+'/front-end/index.html');
+});
+
 module.exports = app;
